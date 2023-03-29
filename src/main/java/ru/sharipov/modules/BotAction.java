@@ -14,6 +14,13 @@ import java.util.Scanner;
 
 public class BotAction {
 
+    public static SendMessage sendWeatherMessage(Long chatId, String text) {
+        SendMessage sendMessage = new SendMessage();
+        sendMessage.setChatId(chatId);
+        sendMessage.setText(text);
+        return sendMessage;
+    }
+
     public static String getWeather(String city, String weatherApi) {
         String result = "";
         try {
@@ -29,7 +36,7 @@ public class BotAction {
             JSONObject json = new JSONObject(builder.toString());
             String description = json.getJSONArray("weather").getJSONObject(0).getString("description");
             double temperature = json.getJSONObject("main").getDouble("temp");
-            result = String.format("%s. Temperature: %.2fK", description, temperature - 273.15);
+            result = String.format("%s. Temperature: %.0f°C", description, temperature - 273.15);
         } catch (IOException e) {
             e.printStackTrace();
         }
